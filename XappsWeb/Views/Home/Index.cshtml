@@ -1,0 +1,30 @@
+﻿@model XappsWeb.ViewModel.IndexViewModel
+
+<div class="row">
+    @foreach (var item in Model.Users)
+    {
+        <div class="col-md-4">
+            <h2>@item.Id - @item.First_name @item.Last_name.First(). </h2>
+            <img src="@item.Avatar" />
+        </div>
+    }
+</div><br />
+<div class="row">
+    @if (@Model.Page > 1)
+    {
+        <a href=".">Primeira</a> <a href=".?page=@(Model.Page-1)">Anterior</a> 
+    }
+    @Model.Page
+    @if (Model.Page < Model.Total_pages) {
+        <a href=".?page=@(Model.Page+1)">Próxima</a> <a href="./?page=@(Model.Total_pages)">Última</a>
+    }
+    <br />Ir para pagina: @Html.DropDownListFor(model => model.Page, Enumerable.Range(1, Model.Total_pages).Select(r => new SelectListItem { Text = r.ToString(), Value = r.ToString() }))<br />
+</div>
+@section scripts
+{
+<script>
+    $("#Page").change(function () {
+        window.location.href = "./?page="+$("option:selected", this).val();
+    });
+</script>
+}
